@@ -4,6 +4,36 @@
  "http://java.sun.com/dtd/web-app_2_3.dtd">
 
 <web-app xmlns="http://java.sun.com/xml/ns/javaee" version="2.5">
+    <servlet>
+        <servlet-name>blob</servlet-name>
+        <jsp-file>/blob.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>blob</servlet-name>
+        <url-pattern>/blob</url-pattern>
+        
+    </servlet-mapping>
+    
+    <servlet>
+    <servlet-name>Upload</servlet-name>
+    <servlet-class>blobstore.Upload</servlet-class>
+  </servlet>
+  
+  <servlet>
+    <servlet-name>Serve</servlet-name>
+    <servlet-class>blobstore.Serve</servlet-class>
+  </servlet>
+ 
+  <servlet-mapping>
+    <servlet-name>Upload</servlet-name>
+    <url-pattern>/upload</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>Serve</servlet-name>
+    <url-pattern>/serve</url-pattern>
+  </servlet-mapping>
+    
 	<servlet>
 		<servlet-name>guestbook</servlet-name>
 		<servlet-class>com.google.appengine.demos.guestbook.GuestbookServlet</servlet-class>
@@ -47,18 +77,21 @@
 		<servlet-name>readdata</servlet-name>
 		<url-pattern>/test</url-pattern>
 	</servlet-mapping>
-
+	
 	<servlet>
 		<servlet-name>done</servlet-name>
 		<jsp-file>/done.html</jsp-file>
+		
 
 	</servlet>
 
 	<servlet-mapping>
 		<servlet-name>done</servlet-name>
-		<url-pattern>/done.html</url-pattern>
+		<url-pattern>/done</url-pattern>
 	</servlet-mapping>
+	
 
+	
 	<servlet>
 		<servlet-name>test</servlet-name>
 		<jsp-file>/Newfile.jsp</jsp-file>
