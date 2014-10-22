@@ -8,13 +8,13 @@ public class TestJerseyWS {
 	@GET
 	@Path("/test")
 	public String testMethod(){
-		return "This is asssjijijij test";
+		return "This is asssjijijij test2323 second";
 	}
 	
 	@GET
 	@Path("/test2")
 	public String testMethod2(){
-		return "This is asss test2";
+		return "This is asss test2.1";
 	}
 
 	
