@@ -18,6 +18,17 @@
     <servlet-name>Upload</servlet-name>
     <servlet-class>blobstore.Upload</servlet-class>
   </servlet>
+  	
+    <servlet>
+        <servlet-name>memcache</servlet-name>
+        <jsp-file>/memcache.jsp</jsp-file>
+    </servlet>
+    
+    <servlet-mapping>
+        <servlet-name>memcache</servlet-name>
+        <url-pattern>/mem</url-pattern>
+    </servlet-mapping>
+    
   
   <servlet>
     <servlet-name>Serve</servlet-name>
