@@ -18,10 +18,11 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<h1>my body is here</h1>
+	<h1>Here is result</h1>
 
 	<%
 		String key = request.getParameter("key");
+	if (key!= null){
 		System.out.println( "this is the key "+key );
 		Key qkey = KeyFactory.createKey("TaskData", key);
 		
@@ -39,6 +40,7 @@
 				//Query.SortDirection.DESCENDING);
 		List<Entity> results = datastore.prepare(query).asList(
 				FetchOptions.Builder.withLimit(5));
+	
 		
 		
 		%>
@@ -54,7 +56,7 @@
 			
 			<p>It's value from datastore is <%= results.get(i).getProperty("value").toString()%> <br></p>
 			
-		<%} %>
+		<%} }%>
 		
 
 

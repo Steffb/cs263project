@@ -19,11 +19,14 @@ public class Upload extends HttpServlet {
     public void doPost(HttpServletRequest req, HttpServletResponse res)
         throws ServletException, IOException {
 
-        Map<String, BlobKey> blobs = blobstoreService.getUploadedBlobs(req);
+        
+		Map<String, BlobKey> blobs = blobstoreService.getUploadedBlobs(req);
         BlobKey blobKey = blobs.get("myFile");
 
         if (blobKey == null) {
-            res.sendRedirect("/");
+        	
+            res.sendRedirect("/blob?error=nofile");
+            System.out.println("there was no key");
         } else {
             res.sendRedirect("/serve?blob-key=" + blobKey.getKeyString());
         }

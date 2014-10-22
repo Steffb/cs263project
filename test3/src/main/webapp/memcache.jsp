@@ -13,6 +13,8 @@
 </head>
 <body>
 
+<h3>refresh page to se that something is cached </h3>
+
 
 	<%
 
@@ -26,7 +28,7 @@ if (memcache.contains("mkey")) {
 	%>
 	<p> something is cached and its value is <%=temp %></p>
 	
-	<p> Wait 30 sek for cache to empty </p>
+	<p> Wait 30 sek for cache to empty, or refresh againg to see increment in cahce value </p>
 	
 	<%
 }else{
