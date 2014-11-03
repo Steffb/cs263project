@@ -10,6 +10,9 @@ public class TestJerseyWS {
 	public String testMethod(){
 		return "This is asssjijijij test2323 second";
 	}
+	public String testMethod3(){
+		return "Is this showing";
+	}
 	
 	@GET
 	@Path("/test2")

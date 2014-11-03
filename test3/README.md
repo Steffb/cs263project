@@ -1,6 +1,11 @@
 App Engine Java Application
 Copyright (C) 2010-2012 Google Inc.
 
+MMA
+api_key=5qdshzyuvstb9kyd3u44u972
+
+
+
 ## Skeleton application for use with App Engine Java.
 
 Requires [Apache Maven](http://maven.apache.org) 3.0 or greater, and JDK 6+ in order to run.
