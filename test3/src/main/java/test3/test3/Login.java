@@ -26,7 +26,7 @@ package test3.test3;
 	                                     "\">sign out</a>.</p>");
 	        } else {// if the user is not logged in
 	            resp.getWriter().println("<p>Please <a href=\"" +
-	                                     userService.createLoginURL(thisURL) +
+	                                     userService.createLoginURL("/userpage.jsp") +
 	                                     "\">sign in</a>.</p>");
 	        }
 	    }

@@ -20,7 +20,7 @@
 
 <body>
 
-	<%
+	<% //sjekker hvilken guestbook som er, blir hentet fra post feltet
 		String guestbookName = request.getParameter("guestbookName");
 		if (guestbookName == null) {
 			guestbookName = "default";
@@ -50,7 +50,8 @@
 		}
 	%>
 
-	<%
+	<%	// henter guestbook fra request som er hentet fra form, fra databasen
+		
 		DatastoreService datastore = DatastoreServiceFactory
 				.getDatastoreService();
 		Key guestbookKey = KeyFactory.createKey("Guestbook", guestbookName);
@@ -90,7 +91,7 @@
 		}
 		}
 	%>
-
+	<%// går til SignGuestbookServlet for å endre guestbook %>
 	<form action="/sign" method="post">
 		<div>
 			<textarea name="content" rows="3" cols="60"></textarea>
