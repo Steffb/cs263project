@@ -28,6 +28,19 @@ public class SignGuestbookServlet extends HttpServlet {
     Key guestbookKey = KeyFactory.createKey("Guestbook", guestbookName);
     String content = req.getParameter("content");
     Date date = new Date();
+    System.out.println("this is postguestbook");
+    System.out.println(guestbookKey.getId());
+    System.out.println(guestbookKey.getKind());
+    System.out.println(guestbookKey.getName());
+    System.out.println(guestbookKey.getNamespace());
+    System.out.println(guestbookKey.getParent());
+    
+    
+    
+    
+    
+    
+    
     Entity greeting = new Entity("Greeting", guestbookKey);
     greeting.setProperty("user", user);
     greeting.setProperty("date", date);

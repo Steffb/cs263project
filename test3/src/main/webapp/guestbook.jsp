@@ -54,13 +54,21 @@
 		
 		DatastoreService datastore = DatastoreServiceFactory
 				.getDatastoreService();
+	
+	
 		Key guestbookKey = KeyFactory.createKey("Guestbook", guestbookName);
 		// Run an ancestor query to ensure we see the most up-to-date
 		// view of the Greetings belonging to the selected Guestbook.
-		Query query = new Query("Greeting", guestbookKey).addSort("date",
-				Query.SortDirection.DESCENDING);
+		Query query = new Query("Greeting", guestbookKey);
+		
+		System.out.println("this is the query " + query.toString());
+		System.out.println("this is the guestbookname " + guestbookName);
+		System.out.println("this is the query key " + guestbookKey);
+		
 		List<Entity> greetings = datastore.prepare(query).asList(
 				FetchOptions.Builder.withLimit(5));
+		System.out.println("this is the size "+greetings.size());
+		
 		if (greetings.isEmpty()) {
 	%>
 	<p>Guestbook '${fn:escapeXml(guestbookName)}' has no messages.</p>
