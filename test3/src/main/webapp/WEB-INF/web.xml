@@ -54,6 +54,16 @@
 		<url-pattern>/guestbook</url-pattern>
 
 	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>UserServlet</servlet-name>
+		<servlet-class>test3.test3.UserServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>UserServlet</servlet-name>
+		<url-pattern>/UserServlet</url-pattern>
+
+	</servlet-mapping>
 
 	<servlet>
 		<servlet-name>sign</servlet-name>
