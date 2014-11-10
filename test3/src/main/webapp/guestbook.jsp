@@ -28,11 +28,12 @@
 		pageContext.setAttribute("guestbookName", guestbookName);
 		UserService userService = UserServiceFactory.getUserService();
 		User user = userService.getCurrentUser();
+		//sjekker om brukeren er logget inn
 		if (user != null) {
 			pageContext.setAttribute("user", user);
 	%>
 
-	<p>
+	<p>	
 		Hello, ${fn:escapeXml(user.nickname)}! (You can <a
 			href="<%=userService.createLogoutURL(request.getRequestURI())%>">sign
 			out</a>.)

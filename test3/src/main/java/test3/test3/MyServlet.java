@@ -35,7 +35,7 @@ public class MyServlet extends HttpServlet{
 
 		//String uri ="http://api.flurry.com/eventMetrics/Event?apiAccessCode=YHJBA13CSKTMS6XHTM6M&apiKey=6XQY729FDU1CR9FKXVZP&startDate=2011-2-28&endDate=2011-3-1&eventName=Tip%20Calculated";
 		String uri ="http://api.sportsdatallc.org/mma-t1/schedule.xml?api_key=5qdshzyuvstb9kyd3u44u972";
-
+		
 
 		URL url = new URL(uri);
 		HttpURLConnection connection =
@@ -44,36 +44,9 @@ public class MyServlet extends HttpServlet{
 		connection.setRequestProperty("Accept", "application/xml");
 
 		InputStream xml = connection.getInputStream();
-
-		DocumentBuilderFactory factory
-		= DocumentBuilderFactory.newInstance();
-		DocumentBuilder parser = null;
-		try {
-			parser = factory.newDocumentBuilder();
-		} catch (ParserConfigurationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		try {
-			Document dc= parser.parse(xml);
-			resp.getWriter().println(dc.getDocumentURI());
-			resp.getWriter().println(dc.getDoctype());
-			
-			Element element = dc.getDocumentElement();
-
-	         // get all child nodes
-	         NodeList nodes = element.getChildNodes();
-
-	         // print the text content of each child
-	         for (int i = 0; i < nodes.getLength(); i++) {
-	        	 resp.getWriter().println("" + nodes.item(i).getTextContent());
-	         }
-		} catch (SAXException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		//Needs fix
 		
-
+		String s= convertStreamToString(xml);
 		
 
 
@@ -81,7 +54,9 @@ public class MyServlet extends HttpServlet{
 
 		resp.getWriter().println("hello");
 
-
+		resp.getWriter().println(xml);
+		resp.getWriter().println(s);
+		
 
 
 	}
@@ -94,6 +69,13 @@ public class MyServlet extends HttpServlet{
 
 
 	}
+	
+	static String convertStreamToString(java.io.InputStream is) {
+	    java.util.Scanner s = new java.util.Scanner(is).useDelimiter("\\A");
+	    return s.hasNext() ? s.next() : "";
+	}
+	
+	
 
 
 }

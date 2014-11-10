@@ -19,6 +19,13 @@ public class TestJerseyWS {
 	public String testMethod2(){
 		return "This is asss test2.1";
 	}
+	
+	@GET @Path("sync/")
+	public String my(){
+		return "this works";
+				
+	}
 
 	
 }
+
