@@ -32,6 +32,9 @@ UserService userService = UserServiceFactory.getUserService();
 		<h3>This is your fed ed <%=user.getFederatedIdentity() %></h3>
 		<h3>This is your authdomain <%=user.getAuthDomain() %></h3>
 		
+		
+		<A HREF="/jsontest?sport=plranking">Get PL</A><br>
+		
 
 		
 		
