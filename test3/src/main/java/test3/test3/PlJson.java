@@ -4,6 +4,11 @@ public class PlJson {
 	
 	
 	String league;
+	
+	/**
+	 * 
+	 * @return Returns normal string
+	 */
 
 	public String getLeague() {
 		return league;
@@ -13,6 +18,10 @@ public class PlJson {
 		System.out.println("heeey");
 		this.league = league;
 	}
+	
+	/**
+	 * @return return string
+	 */
 
 	@Override
 	public String toString() {

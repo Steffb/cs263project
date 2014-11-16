@@ -1,5 +1,11 @@
 package test3.test3;
 
+/**
+ * 
+ * @author steffenfb
+ * This is a pure testcalss to test how the json and gson works together
+ */
+
 public class TestClass {
 	String one;
 	String key;
