@@ -29,6 +29,7 @@ public class UserServlet extends HttpServlet {
 	      throws IOException {
 	  
 	  }
+	
 	  public void doGet(HttpServletRequest req, HttpServletResponse resp)
 		      throws IOException {
 		  
@@ -53,17 +54,11 @@ public class UserServlet extends HttpServlet {
 			
 			System.out.println(UserKey.getId()+" as UserId");
 			
+			
+			
 			List<Entity> userlist = datastore.prepare(query).asList(
 					FetchOptions.Builder.withLimit(5));
-			
-//			for (Entity tuser : userlist) {
-//				System.out.println("loop");
-//				System.out.println(tuser.getProperty("mail"));
-//				System.out.println(tuser.getProperty("user"));
-//				System.out.println(tuser.getProperty("loginId"));
-//				
-//			}
-			
+
 						
 	
 			if (userlist.isEmpty()) {

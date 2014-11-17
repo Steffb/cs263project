@@ -44,10 +44,9 @@ public class JsonServlet extends HttpServlet{
 
 
 
-		//trengs ikke
+		
 		String jsonStr=reqToStr(uri);
-		resp.setContentType("text/plain");
-		resp.getWriter().println("her kommer det "+jsonStr);
+		//resp.getWriter().println("her kommer det "+jsonStr);
 
 		Gson gson = new Gson();
 		//Streng fra json objekt, og klasse som matcher feltene du vil ha ut
@@ -60,14 +59,13 @@ public class JsonServlet extends HttpServlet{
 
 		PlJson plj = gson.fromJson(jsonStr, PlJson.class);
 
+		resp.setContentType("text/plain");
 		resp.getWriter().println(plj);
 
 	}
 
 	public static String reqToStr(String uri) throws IOException{
-		System.out.println("works");
-		System.out.println("works");
-		System.out.println("works");
+		
 		URL url = new URL(uri);
 		HttpURLConnection connection =
 				(HttpURLConnection) url.openConnection();
@@ -81,7 +79,7 @@ public class JsonServlet extends HttpServlet{
 		BufferedReader streamReader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
 		while ((inputStr = streamReader.readLine()) != null){
 			responseStrBuilder+=inputStr;
-			System.out.println(inputStr);
+			
 		}
 		
 		is.close();
@@ -91,15 +89,24 @@ public class JsonServlet extends HttpServlet{
 
 	}
 
+	
+	
 	public static void main(String[] args) throws IOException {
 		// just for local testing
 		Gson gson = new Gson();
-		String ss = reqToStr("http://www.football-data.org/soccerseasons/354/ranking");
-		
+		String ss = reqToStr("http://www.football-data.org/soccerseasons/354/fixtures");
+		System.out.println(ss);
 		// Made object
-		PlJson pp  = gson.fromJson(ss, PlJson.class);
+		PlJson[] pp  = gson.fromJson(ss, PlJson[].class);
+		//PlFJson[] pp  = gson.fromJson(ss, PlFJson[].class);
+		
 		System.out.println("object Made");
 		System.out.println(pp);
+		System.out.println(pp[0].homeTeam);
+		
+		
+		
+		
 		
 	
 		
