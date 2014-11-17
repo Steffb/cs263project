@@ -31,9 +31,10 @@ UserService userService = UserServiceFactory.getUserService();
 		<h3>This is your id <%=user.getUserId() %></h3>
 		<h3>This is your fed ed <%=user.getFederatedIdentity() %></h3>
 		<h3>This is your authdomain <%=user.getAuthDomain() %></h3>
+		<h2>This is from session <%=session.getAttribute("SuserId") %></h2>
 		
 		
-		<A HREF="/jsontest?sport=plranking">Get PL</A><br>
+		<A HREF="/jsontest?sport=plranking&id=354">Get PL</A><br>
 		
 
 		

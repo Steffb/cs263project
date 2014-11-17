@@ -4,6 +4,7 @@
  "http://java.sun.com/dtd/web-app_2_3.dtd">
 
 <web-app xmlns="http://java.sun.com/xml/ns/javaee" version="2.5">
+    <sessions-enabled>true</sessions-enabled>
     <servlet>
         <servlet-name>blob</servlet-name>
         <jsp-file>/blob.jsp</jsp-file>

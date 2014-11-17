@@ -11,13 +11,13 @@ import java.util.List;
  */
 public class PlJson {
 	
-	int id;
-    String date;
-    int matchday;
-    String homeTeam;
-    String awayTeam;
-    int goalsHomeTeam;
-    int goalsAwayTeam;
+	public int id;
+	public String date;
+	public int matchday;
+    public String homeTeam;
+    public String awayTeam;
+    public int goalsHomeTeam;
+    public int goalsAwayTeam;
 	
 	
 	String league;
@@ -28,7 +28,11 @@ public class PlJson {
 	 * 
 	 * @return Returns normal string
 	 */
-
+	public boolean isPlayed(){
+		if(goalsAwayTeam<0){
+			return false;
+		}else return true;
+	}
 	public String getLeague() {
 		return league;
 	}
