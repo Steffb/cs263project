@@ -37,12 +37,13 @@ public class JsonServlet extends HttpServlet{
 		String uri="";
 		String s= req.getParameter("sport");
 		System.out.println("hello");
+		String lid= req.getParameter("id");
 		
 		if (s.equals("plranking")){
 
 			System.out.println("got the message"+s);
 			
-			uri+="http://www.football-data.org/soccerseasons/354/fixtures";
+			uri+="http://www.football-data.org/soccerseasons/"+lid+"/fixtures";
 			String jsonStr=reqToStr(uri);
 			Gson gson = new Gson();
 			PlJson[] plj =  gson.fromJson(jsonStr, PlJson[].class);

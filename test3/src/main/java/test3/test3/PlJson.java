@@ -33,6 +33,16 @@ public class PlJson {
 			return false;
 		}else return true;
 	}
+	
+	public int goalCount(){
+		return goalsAwayTeam + goalsHomeTeam;
+	}
+	public boolean wasGoal(){
+		if (goalsAwayTeam + goalsHomeTeam !=0){
+			return true;
+		}else return false;
+	}
+	
 	public String getLeague() {
 		return league;
 	}
