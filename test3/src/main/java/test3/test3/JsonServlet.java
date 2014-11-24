@@ -30,7 +30,11 @@ import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 import com.google.gson.Gson;
 
-
+/**
+ * 
+ * @author steffenfb
+ *	Servlet for handling json requests and making it to gson
+ */
 
 public class JsonServlet extends HttpServlet{
 
@@ -158,9 +162,7 @@ public class JsonServlet extends HttpServlet{
 	
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		
-		resp.getWriter().println("here comes the boom"
-				+ req.getParameter("type")+req.getParameter("id")+req.getParameter("parentkind")
-				+ "");
+		
 		System.out.println("here comes the shit: "
 				+ req.getParameter("type")+req.getParameter("id")+",parent kind "+req.getParameter("parentkind")
 				+", parent id "+req.getParameter("parentid")+", parent "+req.getParameter("parent")+", parent name "+req.getParameter("parentname")
@@ -193,7 +195,7 @@ public class JsonServlet extends HttpServlet{
 		
 
 		
-		//increment in datastore
+	
 		
 		
 		
