@@ -23,7 +23,7 @@ import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
-import com.google.appengine.api.files.dev.Session;
+
 import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
@@ -37,8 +37,7 @@ public class UserServlet extends HttpServlet {
 	  }
 	
 	  public void doGet(HttpServletRequest req, HttpServletResponse resp)
-		      throws IOException {
-		  
+		      throws IOException {	  
 		  UserService userService = UserServiceFactory.getUserService();
 		    User user = userService.getCurrentUser();
 		    

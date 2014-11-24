@@ -110,6 +110,8 @@
 		<input type="hidden" name="guestbookName"
 			value="${fn:escapeXml(guestbookName)}" />
 	</form>
+	
+	
 
 
 	<form action="/guestbook.jsp" method="get">

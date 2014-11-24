@@ -20,10 +20,14 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.FetchOptions;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.users.User;
+import com.google.appengine.api.users.UserService;
+import com.google.appengine.api.users.UserServiceFactory;
 import com.google.gson.Gson;
 
 
@@ -32,38 +36,91 @@ public class JsonServlet extends HttpServlet{
 
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException{
 
-
+		
+		
 		//String uri ="http://echo.jsontest.com/key/value/one/two";
 		String uri="";
 		String s= req.getParameter("sport");
-		System.out.println("hello");
+		System.out.println("this is s"+s);
 		String lid= req.getParameter("id");
-		
+
 		if (s.equals("plranking")){
 
 			System.out.println("got the message"+s);
-			
+
 			uri+="http://www.football-data.org/soccerseasons/"+lid+"/fixtures";
 			String jsonStr=reqToStr(uri);
 			Gson gson = new Gson();
 			PlJson[] plj =  gson.fromJson(jsonStr, PlJson[].class);
-			
+
 			ServletContext sc = this.getServletContext();
 			RequestDispatcher rd = sc.getRequestDispatcher("/pl.jsp");
 			req.setAttribute("league", plj);
+			//forward query to page
 			rd.forward(req, resp);
-			
-			
-			
-			
+
+			//resp.sendRedirect("pl.jsp");
+
+		}else if(s.equals("footballold")){
+			System.out.println("running football old");
+			DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+
+			Key LeagueKey = KeyFactory.createKey("LeagueEntity", lid);
 			
 
-			
-			//resp.sendRedirect("pl.jsp");
-			
-			
-			
-			
+			Query query = new Query("LeagueEntity",LeagueKey);
+			System.out.println("This is the query "+query.toString());
+
+			//check if that league has been created
+			List<Entity> League = datastore.prepare(query).asList(
+					FetchOptions.Builder.withLimit(5));
+
+			uri+="http://www.football-data.org/soccerseasons/"+lid+"/fixtures";
+			//gettin get
+			String jsonStr=reqToStr(uri);
+			Gson gson = new Gson();
+			//List of all league matches
+			PlJson[] plj =  gson.fromJson(jsonStr, PlJson[].class);
+
+			if (League.isEmpty()) {
+				// creating a new league
+				System.out.println("it is empty");
+
+				Entity league = new Entity("LeagueEntity",LeagueKey);
+				league.setProperty("apiId", lid);
+				league.setProperty("leaguename", "premierleague");
+
+				datastore.put(league);
+
+				System.out.println("put entity league");
+
+				//adding sub> matches
+				for (int i = 0; i < plj.length; i++) {
+					System.out.println("running for loop");
+					if(plj[i].isPlayed()){
+						//check if it needs to be added to db
+						//Key matchKey = KeyFactory.createKey("LeagueMatch", plj[i].id);
+						Entity match = new Entity("LeagueMatch", plj[i].id, LeagueKey);
+
+						match.setProperty("awayteam", plj[i].awayTeam);
+						match.setProperty("hometeam", plj[i].homeTeam);
+						match.setProperty("id",plj[i].id);
+						match.setProperty("matchday",plj[i].matchday);
+						match.setProperty("goalsHomeTeam",plj[i].goalsHomeTeam);
+						match.setProperty("goalsAwayTeam",plj[i].goalsAwayTeam);
+						match.setProperty("vote", 0);
+
+
+						datastore.put(match);
+						System.out.printf("adding %s",match);
+
+					}
+
+
+
+
+				}
+			}System.out.println("already added");
 
 		}
 
@@ -80,11 +137,11 @@ public class JsonServlet extends HttpServlet{
 
 
 
-		
-		
+
+
 		//resp.getWriter().println("her kommer det "+jsonStr);
 
-		
+
 		//Streng fra json objekt, og klasse som matcher feltene du vil ha ut
 
 
@@ -93,12 +150,59 @@ public class JsonServlet extends HttpServlet{
 		//		System.out.println(tc.toString());
 		//		resp.getWriter().println(tc);
 
-		
+
 
 	}
 
-	public static String reqToStr(String uri) throws IOException{
+	
+	
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		
+		resp.getWriter().println("here comes the boom"
+				+ req.getParameter("type")+req.getParameter("id")+req.getParameter("parentkind")
+				+ "");
+		System.out.println("here comes the shit: "
+				+ req.getParameter("type")+req.getParameter("id")+",parent kind "+req.getParameter("parentkind")
+				+", parent id "+req.getParameter("parentid")+", parent "+req.getParameter("parent")+", parent name "+req.getParameter("parentname")
+				+ "");
+		
+		
+		Key parent =KeyFactory.createKey(req.getParameter("parentkind"),req.getParameter("parentname"));
+		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+		Long l =Long.parseLong(req.getParameter("id"));
+		Key mykey = KeyFactory.createKey(parent,"LeagueMatch",l);
+		
+		try {
+			Entity e =datastore.get(mykey);
+			long v = (Long) e.getProperty("vote");
+			v+=1;
+			e.setProperty("vote", v);
+			
+			datastore.put(e);
+			System.out.print("hey it worked");
+			resp.getWriter().println("it worked");
+			//needs to be dynamic
+			resp.sendRedirect("votepage.jsp?id=354");
+			
+			
+			
+		} catch (EntityNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+
+		
+		//increment in datastore
+		
+		
+		
+		
+		
+		
+	}
+	public static String reqToStr(String uri) throws IOException{
+
 		URL url = new URL(uri);
 		HttpURLConnection connection =
 				(HttpURLConnection) url.openConnection();
@@ -107,14 +211,14 @@ public class JsonServlet extends HttpServlet{
 		String responseStrBuilder="";
 		String inputStr;
 		//lager strengobjektet fra is
-		
-		
+
+
 		BufferedReader streamReader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
 		while ((inputStr = streamReader.readLine()) != null){
 			responseStrBuilder+=inputStr;
-			
+
 		}
-		
+
 		is.close();
 		connection.disconnect();
 
@@ -122,8 +226,8 @@ public class JsonServlet extends HttpServlet{
 
 	}
 
-	
-	
+
+
 	public static void main(String[] args) throws IOException {
 		// just for local testing
 		Gson gson = new Gson();
@@ -132,30 +236,30 @@ public class JsonServlet extends HttpServlet{
 		// Made object
 		PlJson[] pp  = gson.fromJson(ss, PlJson[].class);
 		//PlFJson[] pp  = gson.fromJson(ss, PlFJson[].class);
-		
+
 		System.out.println("object Made");
 		System.out.println(pp);
 		System.out.println(pp[0].homeTeam);
-		
-		
+
+
 		for (int i = 0; i < pp.length; i++) {
 			PlJson plJson = pp[i];
 			if(pp[i].isPlayed()){
-			System.out.println(pp[i].homeTeam+"scored"+pp[i].goalsHomeTeam);
-			System.out.println(pp[i].awayTeam+"scored"+pp[i].goalsAwayTeam);
-			
+				System.out.println(pp[i].homeTeam+"scored"+pp[i].goalsHomeTeam);
+				System.out.println(pp[i].awayTeam+"scored"+pp[i].goalsAwayTeam);
+
 			}
 		}
-		
-		
-		
-		
-		
-	
-		
-		
-		
-		
+
+
+
+
+
+
+
+
+
+
 	}
 
 

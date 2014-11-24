@@ -36,6 +36,7 @@ UserService userService = UserServiceFactory.getUserService();
 		
 		<A HREF="/jsontest?sport=plranking&id=354">Get PL</A><br>
 		<A HREF="/jsontest?sport=plranking&id=355">Get other league</A><br>
+		<A HREF="/jsontest?sport=footballold&id=354">Get other league</A><br>
 		
 
 		
