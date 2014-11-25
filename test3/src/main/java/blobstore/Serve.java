@@ -18,5 +18,6 @@ public class Serve extends HttpServlet {
         throws IOException {
             BlobKey blobKey = new BlobKey(req.getParameter("blob-key"));
             blobstoreService.serve(blobKey, res);
+            
         }
 }

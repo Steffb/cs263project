@@ -29,6 +29,10 @@
 		<servlet-name>Upload</servlet-name>
 		<servlet-class>blobstore.Upload</servlet-class>
 	</servlet>
+	<servlet-mapping>
+		<servlet-name>Upload</servlet-name>
+		<url-pattern>/upload</url-pattern>
+	</servlet-mapping>
 
 	<servlet>
 		<servlet-name>memcache</servlet-name>
@@ -46,10 +50,6 @@
 		<servlet-class>blobstore.Serve</servlet-class>
 	</servlet>
 
-	<servlet-mapping>
-		<servlet-name>Upload</servlet-name>
-		<url-pattern>/upload</url-pattern>
-	</servlet-mapping>
 
 	<servlet-mapping>
 		<servlet-name>Serve</servlet-name>

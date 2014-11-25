@@ -28,7 +28,18 @@ import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 
+
+/**
+ * 
+ * @author steffenfb
+ * 
+ * Takes over after successfull login, and saves user to datastore
+ * 
+ * 
+ */
 public class UserServlet extends HttpServlet {
+	
+	
 	
 	@Override
 	  public void doPost(HttpServletRequest req, HttpServletResponse resp)
@@ -77,6 +88,7 @@ public class UserServlet extends HttpServlet {
 				userent.setProperty("date", date);
 				userent.setProperty("mail", mail);
 				userent.setProperty("loginId", userId);
+				userent.setProperty("blobkey", null);
 				
 				datastore.put(userent);
 				
