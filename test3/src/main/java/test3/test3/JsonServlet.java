@@ -85,6 +85,7 @@ public class JsonServlet extends HttpServlet{
 			Gson gson = new Gson();
 			//List of all league matches
 			PlJson[] plj =  gson.fromJson(jsonStr, PlJson[].class);
+			
 
 			if (League.isEmpty()) {
 				// creating a new league

@@ -4,9 +4,9 @@ import java.util.ArrayList;
 
 public class UfcEvent {
 	
-	String eventname;
+	public String eventname;
 	
-	ArrayList<Fight> fights;
+	public ArrayList<Fight> fights;
 
 	@Override
 	public String toString() {

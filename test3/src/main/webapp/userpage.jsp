@@ -54,7 +54,7 @@ BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService(
 </form>
 <h1>Here is your lovely picture</h1>
 <%
-
+// need to fetch from linkdirectly
 if(result !=null && result.getProperty("blobkey")!= null){
 ImagesService is = ImagesServiceFactory.getImagesService(); 
 
@@ -95,18 +95,42 @@ System.out.println("test1");
 		<h3>This is your fed ed <%=user.getFederatedIdentity() %></h3>
 		<h3>This is your authdomain <%=user.getAuthDomain() %></h3>
 		<h2>This is from session <%=session.getAttribute("SuserId") %></h2>
+		
+		
+		<%
+	MemcacheService memcache = MemcacheServiceFactory.getMemcacheService();
+		
+		if (memcache.contains("mail")) {
+			
+			
+			System.out.println("found in cache");
+			%><h4>This is from the cache:<%=memcache.get("mail")%></h4><%
+				
+		}else{
+			
+		System.out.println("nothing is cached");
+			
+		System.out.println("setting cache");
+		memcache.put("mail",result.getProperty("mail"));%>
+		
 		<h4>This is from the datastore:</h4>
 		
 		<%if(result !=null ){ %>
 		<p><%=result.getProperty("mail")%></p>
 		<%
 
-		} %>
+		}
+		}%>
+		
+		
 		
 		
 		<A HREF="/jsontest?sport=plranking&id=354">Get PL</A><br>
 		<A HREF="/jsontest?sport=plranking&id=355">Get other league</A><br>
 		<A HREF="/jsontest?sport=footballold&id=354">Get other league</A><br>
+		
+		<A HREF="/ufc?eventid=180">Get other league</A><br>
+		
 		
 
 		
