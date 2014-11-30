@@ -91,9 +91,10 @@ public class UfcServlet extends HttpServlet{
 		
 
 		req.setAttribute("key", ufcKey);
+		req.setAttribute("event", u.eventname);
 		ServletContext sc = this.getServletContext();
 		RequestDispatcher rd = sc.getRequestDispatcher("/ufc.jsp");
-		req.setAttribute("event", u);
+		
 		//forward query to page
 		rd.forward(req, resp);
 		
