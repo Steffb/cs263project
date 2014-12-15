@@ -20,16 +20,9 @@
 <a HREF="/login">log in as a user</a><br>
 
 <%
-UserService userService = UserServiceFactory.getUserService();
-
-String thisURL = request.getRequestURI();
-
-
 //if user logged in
 if (request.getUserPrincipal() != null) { %>
-
-
-   <p>Hello<%= request.getUserPrincipal().getName() %>You can <br><a href="<%=userService.createLogoutURL("/index.jsp")%>">sign out</a>.</p>
+<p>Hello<%= request.getUserPrincipal().getName() %>You can <br><a href="<%=userService.createLogoutURL("/index.jsp")%>">sign out</a>.</p>
    <a href="/userpage.jsp">Here is your userpage</a>
 <%} else {// if the user is not logged in, does not save in datastore %>
     <p>Please <a href="<%=userService.createLoginURL("/UserServlet")%>">sign in</a>.</p>

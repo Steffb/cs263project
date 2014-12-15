@@ -20,11 +20,13 @@
 <title>Insert title here</title>
 </head>
 <body>
-
+<div class="jumbotron">
+<div class="container">
+<br>
 
 <%Entity result = null;
 
-UserService userService = UserServiceFactory.getUserService();
+
 User user = userService.getCurrentUser();
 
 
@@ -47,12 +49,7 @@ result = datastore.prepare(query).asSingleEntity();
 BlobstoreService blobstoreService = BlobstoreServiceFactory.getBlobstoreService();
 
 %>
-<form action="<%= blobstoreService.createUploadUrl("/upload") %>" method="post" enctype="multipart/form-data">
-<input type="file" name="myFile">
-<input type="submit" value="Submit">
-<input type="hidden" name="userkey" value=<%=user.getUserId() %>>
-</form>
-<h1>Here is your lovely picture</h1>
+
 <%
 // need to fetch from linkdirectly
 if(result !=null && result.getProperty("blobkey")!= null){
@@ -60,12 +57,27 @@ ImagesService is = ImagesServiceFactory.getImagesService();
 
 BlobKey b = (BlobKey) result.getProperty("blobkey");%>
 
+<h1>Here is your lovely picture</h1>
 <img src="<%= is.getServingUrl(b)%>=s200" alt="Mountain View" >
 <%
+}else{
+	
+	%>
+	<h1>Upload a profile picture</h1>
+	<form action="<%= blobstoreService.createUploadUrl("/upload") %>" method="post" enctype="multipart/form-data">
+	<input type="file" name="myFile">
+	<input type="submit" value="Submit">
+	<input type="hidden" name="userkey" value=<%=user.getUserId() %>>
+	</form>
+	
+	<%
+	
 }
 
 
 %>
+
+<div style="padding:10%;">
 
 <%
 
@@ -73,28 +85,58 @@ BlobKey b = (BlobKey) result.getProperty("blobkey");%>
 if(result !=null ){
 	System.out.println("User is found");
 System.out.println(result.getKind()+result.toString());
+
+
+Query query = new Query("Savematch", result.getKey());
+System.out.println(query);
+List<Entity> le = datastore.prepare(query).asList(FetchOptions.Builder.withDefaults());
+
+System.out.println(le);
+%>
+	<div class="row">
+	<h3>Your saved matches</h3>
+	<%
+	
+	
+for (Entity e: le){
+	
+	System.out.println(e);
+	%>
+		
+	<div class="col-sm-6 col-md-4">
+		<div class="panel panel-primary">
+		<div class="panel-heading"><%=e.getProperty("event") %></div>
+		<div class="panel-body"><%=e.getProperty("winner") %> VS. <%=e.getProperty("loser") %></div>
+  		<div class="panel-footer"><%=e.getProperty("comment") %></div>
+			</div>
+		</div>	
+	
+	
+	
+	
+	
+	<%
+
+}%></div></div><%
+
 }
 
-System.out.println("test1");
 
-
-
-
-
-
-
-		
 		//sjekker om brukeren er logget inn
 		if (user != null) {//IF LOGGED INN
 			pageContext.setAttribute("user", user);
 		
+		
+		
+		
+		
 		%>
-		<h3>This is your mail <%=user.getEmail() %></h3>
+		<!-- <h3>This is your mail <%=user.getEmail() %></h3>
 		<h3>This is your nickname <%=user.getNickname() %></h3>
 		<h3>This is your id <%=user.getUserId() %></h3>
 		<h3>This is your fed ed <%=user.getFederatedIdentity() %></h3>
 		<h3>This is your authdomain <%=user.getAuthDomain() %></h3>
-		<h2>This is from session <%=session.getAttribute("SuserId") %></h2>
+		<h2>This is from session <%=session.getAttribute("SuserId") %></h2> -->
 		
 		
 		<%
@@ -132,7 +174,8 @@ System.out.println("test1");
 		<A HREF="/ufc?eventid=180">Get other league</A><br>
 		
 		
-
+	
+	
 		
 		
 		
@@ -154,7 +197,9 @@ System.out.println("test1");
 	<%
 		}
 	%>
+	
+</div>
 
-
+</div>
 </body>
 </html>

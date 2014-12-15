@@ -28,39 +28,32 @@ public class UfcServlet extends HttpServlet{
 
 
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException{ 
+		
 
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-
-
 		//Add the event to db
-		String url = "http://en.wikipedia.org/wiki/UFC_"+req.getParameter("eventid");
-
-
-
+		String url = "http://en.wikipedia.org"+req.getParameter("eventurl");
 		UfcEvent u= new UfcEvent();
 		u.eventname=Datascraper.getwikiheader(Datascraper.urlToDoc(url));
-		
-		
+		//because the form on Ufc.jsp does not like whitespaces
+		String eventname =u.eventname.replaceAll("\\s+","");
 		u.fights=Datascraper.createFights(Datascraper.urlToDoc(url));
-
-
-		Key ufcKey = KeyFactory.createKey("UfcEvent",u.eventname );
+		Key ufcKey = KeyFactory.createKey("UfcEvent",eventname);
 		Entity result = null;
 		Query query = new Query("UfcEvent",ufcKey);
-		
 		System.out.println(query);
 		result = datastore.prepare(query).asSingleEntity();
 
 		// if it is already stored
-		if(result !=null){
-			
-			
+		if(result !=null){	
+			System.out.println("was stored already");
 			
 		}// if it is not stored, make it in datastore
 		else{
-			
+			System.out.println("creating in db");
 			Entity league = new Entity("UfcEvent",ufcKey);
-			league.setProperty("Eventname", u.eventname);
+			league.setProperty("Eventname", eventname);
+			System.out.println("eventname"+eventname);
 			
 
 
@@ -80,6 +73,9 @@ public class UfcServlet extends HttpServlet{
 				e.setProperty("round", f.round);
 				e.setProperty("stopped", f.stopped);
 				e.setProperty("time",f.time);
+				e.setProperty("vote", 0);
+				System.out.println("this is key" +e.getKey());
+				System.out.println("this is id"+e.getKey().getId());
 				
 				datastore.put(e);
 			}
@@ -91,7 +87,7 @@ public class UfcServlet extends HttpServlet{
 		
 
 		req.setAttribute("key", ufcKey);
-		req.setAttribute("event", u.eventname);
+		req.setAttribute("event", eventname);
 		ServletContext sc = this.getServletContext();
 		RequestDispatcher rd = sc.getRequestDispatcher("/ufc.jsp");
 		

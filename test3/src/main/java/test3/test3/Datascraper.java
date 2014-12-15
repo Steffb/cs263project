@@ -2,6 +2,9 @@ package test3.test3;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
+
+import objects.EventIndex;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -139,21 +142,72 @@ public class Datascraper {
 
 
 
+	public static List<EventIndex> createIndex() throws IOException{
+		//wikiTablePrinter("http://en.wikipedia.org/wiki/UFC_180");
+				String url = "http://en.wikipedia.org/wiki/List_of_UFC_events";
+				//System.out.println(getwikiheader(urlToDoc(url)));
 
+				List<EventIndex> l =  new ArrayList<EventIndex>();
+				Document d =urlToDoc(url);
+				
+				Elements table= d.select("table tbody");
+				Element e = table.get(1);
+				Elements rows = e.select("tr");
+				for (Element row:rows){
+					//System.out.println("new for ");
+					Elements divs = row.select("td");
+					if(divs.size()>0){
+					Element ee = divs.get(1);
+					Elements links = ee.select("a");
+					//System.out.println(links.html());
+					//System.out.println(links.attr("href"));
+					EventIndex ei= new EventIndex(links.html(), links.attr("href"));
+					l.add(ei);
+					
+					}
+					}
+				return l;
+	}
 
 
 	public static void main(String[] args) throws IOException {
 
 		//wikiTablePrinter("http://en.wikipedia.org/wiki/UFC_180");
-		String url = "http://en.wikipedia.org/wiki/UFC_180";
+		String url = "http://en.wikipedia.org/wiki/List_of_UFC_events";
 		//System.out.println(getwikiheader(urlToDoc(url)));
 
-		UfcEvent u= new UfcEvent();
-		u.eventname=getwikiheader(urlToDoc(url));
-		u.fights=createFights(urlToDoc(url));
+		List<EventIndex> l =  new ArrayList<EventIndex>();
+		Document d =urlToDoc(url);
+		
+		Elements table= d.select("table tbody");
+		Element e = table.get(1);
+		Elements rows = e.select("tr");
+		for (Element row:rows){
+			//System.out.println("new for ");
+			Elements divs = row.select("td");
+			if(divs.size()>0){
+			Element ee = divs.get(1);
+			Elements links = ee.select("a");
+			//System.out.println(links.html());
+			//System.out.println(links.attr("href"));
+			EventIndex ei= new EventIndex(links.html(), links.attr("href"));
+			l.add(ei);
+			
+			}
+			}
+		System.out.println(l.get(2).toString());
+			
+		}
+		
+		
+
+		
+		
+		
+		
 
 
-		System.out.println(u.toString());
+		
 
-	}
+	
 }
