@@ -18,10 +18,19 @@ import com.google.appengine.api.datastore.Query;
 import com.google.gson.Gson;
 
 import java.util.Date;
-// ...
 
 
-// The Worker servlet should be mapped to the "/worker" URL.
+/**
+ * 
+ * @author steffenfb
+ * This worker takes over after you go to the soccer page
+ * It checks if the db version of the table is up to date with the api version
+ * 
+ * It does this by checking the amount of played matches 
+ * If the Json version has higher count of played matches, the db needs to be updated
+ * 
+ * 
+ */
 public class Worker extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -65,14 +74,14 @@ public class Worker extends HttpServlet {
 				System.out.println("No need to update");
 				update=false;
 			}}
-
+		//if we do need to update
 		if (update){
 			System.out.println("we do update");
 			System.out.println("leaguekey is "+LeagueKey);
 			Entity newleague = new Entity("LeagueEntity", LeagueKey);
 			
 			
-
+			// sets the new matchcount accordingly
 			newleague.setProperty("matchcount", jsonPlayed);
 			datastore.put(newleague);
 			System.out.println("added league to ds");

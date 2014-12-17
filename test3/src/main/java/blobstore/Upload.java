@@ -49,6 +49,8 @@ public class Upload extends HttpServlet {
        
         String url = is.getServingUrl(arg0);
         
+        
+        // sets the picture to a standard size
         url+="=s200";
         //find user add key to user as param
         Key UserKey = KeyFactory.createKey("UserEntity", req.getParameter("userkey"));
@@ -74,7 +76,7 @@ public class Upload extends HttpServlet {
             res.sendRedirect("/blob?error=nofile");
             System.out.println("there was no key");
         } else {
-            //res.sendRedirect("/serve?blob-key=" + blobKey.getKeyString());
+            
         	res.sendRedirect("/userpage.jsp");
         }
     }

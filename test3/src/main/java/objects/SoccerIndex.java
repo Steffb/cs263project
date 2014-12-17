@@ -1,12 +1,23 @@
 package objects;
 
 import java.io.IOException;
+
 import java.io.Serializable;
 
 import com.google.gson.Gson;
 
 import test3.test3.JsonServlet;
 
+/**
+ * 
+ * @author steffenfb
+ * 
+ * 
+*	The league information displayed in the soccer menu
+ *	Used in the index page for sending right request 
+ * 	Needs to be serializable for caching purposes
+ */
+	
 public class SoccerIndex implements Serializable{
 	
 	public int id;
@@ -21,6 +32,7 @@ public class SoccerIndex implements Serializable{
     	return id+"\t"+caption+"\t"+league+"\t"+year;
     }
 
+    //just for fast testing
     public static void main(String[] args) throws IOException{
     	String uri="http://www.football-data.org/soccerseasons/";
 		String jsonStr=JsonServlet.reqToStr(uri);

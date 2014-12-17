@@ -2,6 +2,16 @@ package objects;
 
 import java.io.Serializable;
 
+/**
+ * 
+ * @author steffenfb
+ * 
+ *	The event name and url in an object
+ *	Used in the index page for sending right request 
+ * 	Needs to be serializable for caching purposes
+ * 
+ */
+
 public class EventIndex implements Serializable{
 	
 	public String name;

@@ -12,6 +12,7 @@
 <title>Soccer indexpage</title>
 </head>
 <body>
+<div class="container">
 <h1> This is soccer league</h1>
 <%
 
@@ -20,18 +21,30 @@ SoccerIndex[] soccerindex =(SoccerIndex[]) request.getAttribute("index");
 
 %>
 <div class="container">
-<h1><%=request.getAttribute("event") %></h1>
+<h1><%//=request.getAttribute("event") %></h1>
 <table class="table table-hover">
 
-<thead><th>League id  </th><th>League name</th><th>short</th><th>Year</th></thead>
+<thead><th> </th><th>League name</th><th>Year</th></thead>
 
 <tbody>
 
 <%for (int i = 0; i < soccerindex.length; i++) { %>
 
+<%
 
-<tr class='clickableRow' href='/jsontest?sport=plranking&id=<%=soccerindex[i].id %>&leaguename=<%=soccerindex[i].caption %>'><td><%=soccerindex[i].id %></td><td><%=soccerindex[i].caption%></td><td><%=soccerindex[i].league %></td><td>
-<%=soccerindex[i].year%></td></tr> </div>
+String s =soccerindex[i].caption.replaceAll("\\s","");
+
+%>
+
+<tr class='clickableRow' href='/jsontest?sport=plranking&id=<%=soccerindex[i].id %>&leaguename=<%=s%>'><td></td><td><%=soccerindex[i].caption%></td><td>
+<%=soccerindex[i].year%></td>
+<td>
+
+
+</td>
+
+
+</tr> </div>
 
 
 
@@ -55,7 +68,7 @@ jQuery(document).ready(function($) {
 
 
 
-
+</div>
 
 </body>
 </html>

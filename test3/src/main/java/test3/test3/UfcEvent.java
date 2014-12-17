@@ -2,6 +2,15 @@ package test3.test3;
 
 import java.util.ArrayList;
 
+
+/**
+ * 
+ * @author steffenfb
+ * Object for a ufc fightcard
+ *  Has a title and list containing fights that again contains 
+ *  the interesting information of all the fights
+ *  
+ */
 public class UfcEvent {
 	
 	public String eventname;

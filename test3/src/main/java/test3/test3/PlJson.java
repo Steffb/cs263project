@@ -7,8 +7,9 @@ import java.util.List;
  * 
  * @author steffenfb
  *
- * The class to parse Premier league json object to java
- * Represents a match 
+ * The class to parse Soccer league json to java
+ * Represents a match that has been 
+ * the id is given by the api and used throughout as identificator
  */
 public class PlJson {
 	
@@ -29,28 +30,40 @@ public class PlJson {
 	/**
 	 * 
 	 * @return Returns normal string
+	 * All matches that are not played has the score -1 vs -1 so 
+	 * one check is something is under 0 is enough to determine 
 	 */
 	public boolean isPlayed(){
 		if(goalsAwayTeam<0){
 			return false;
 		}else return true;
 	}
-	
+	/**
+	 * coutns the total amount of goals in a match
+	 * @return
+	 */
 	public int goalCount(){
 		return goalsAwayTeam + goalsHomeTeam;
 	}
+	/**
+	 * returns a boolean on wether or not there were goals in this match
+	 * @return
+	 */
 	public boolean wasGoal(){
 		if (goalsAwayTeam + goalsHomeTeam !=0){
 			return true;
 		}else return false;
 	}
-	
+	/** 
+	 * returns the league name
+	 * @return
+	 */
 	public String getLeague() {
 		return league;
 	}
 
 	public void setLeague(String league) {
-		System.out.println("heeey");
+		
 		this.league = league;
 	}
 	

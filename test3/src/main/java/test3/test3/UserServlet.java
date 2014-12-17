@@ -35,7 +35,7 @@ import com.google.appengine.api.users.UserServiceFactory;
  * 
  * Takes over after successfull login, and saves user to datastore
  * 
- * 
+ * Handles a users likes, comments and saved events
  */
 public class UserServlet extends HttpServlet {
 
@@ -52,13 +52,10 @@ public class UserServlet extends HttpServlet {
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 		String userId = user.getUserId();
 		if (req.getParameter("type").equals("save")){
+			
 			Key UserKey = KeyFactory.createKey("UserEntity", userId);
-
-			Query query = new Query("UserEntity",UserKey);
-
-			Entity dsuser = datastore.prepare(query).asSingleEntity();
-
-			Entity savematch= new Entity("Savematch", dsuser.getKey());
+			
+			Entity savematch= new Entity("Savematch", UserKey);
 			savematch.setProperty("winner", req.getParameter("winner"));
 			savematch.setProperty("loser", req.getParameter("loser"));
 			savematch.setProperty("kind", req.getParameter("kind"));
@@ -69,7 +66,25 @@ public class UserServlet extends HttpServlet {
 			System.out.println(req.getParameter("url"));
 			resp.sendRedirect("ufc?eventurl="+req.getParameter("url"));
 
-		}else if (req.getParameter("type").equals("comment")){
+		}else if (req.getParameter("type").equals("remove")){
+			
+			System.out.println(req.getParameter("key"));
+			System.out.println(req.getParameter("id"));
+			//System.out.println(req.getParameter("parent"));
+			Key UserKey = KeyFactory.createKey("UserEntity", userId);
+			
+			long l = Long.parseLong(req.getParameter("id"));
+			Key e= KeyFactory.createKey(UserKey,"Savematch",l);
+			datastore.delete(e);
+			
+			resp.sendRedirect("/userpage.jsp");
+			
+			
+			
+			
+			
+		}
+		else if (req.getParameter("type").equals("comment")){
 			System.out.println("a comment was made!");
 			
 			Key parent =KeyFactory.createKey(req.getParameter("parentkind"),req.getParameter("parentname"));
@@ -113,6 +128,23 @@ public class UserServlet extends HttpServlet {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			
+			
+		}else if (req.getParameter("type").equals("favorite")){
+			
+			System.out.println("running favorite");
+			Key UserKey = KeyFactory.createKey("UserEntity", userId);
+			System.out.println(req.getParameter("url"));
+			System.out.println(req.getParameter("leaguename"));
+			
+			
+			Entity e = new Entity("favorite", UserKey);
+			
+			datastore.put(e);
+			
+			
+			
+			
 			
 			
 		}

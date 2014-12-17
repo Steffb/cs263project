@@ -30,6 +30,15 @@ public class UfcServlet extends HttpServlet{
 
 	//Needs to send full event as attribute 
 
+	/**
+	 * handles all the UFC event requests
+	 * 
+	 * Since all the events in the scope of this app are over
+	 * We only check if it is already stored if it is not we store it 
+	 * 
+	 * We store it so it can be connected to votes and comments
+	 * 
+	 */
 
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException{ 
 		

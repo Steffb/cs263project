@@ -8,6 +8,12 @@ package test3.test3;
 	import com.google.appengine.api.users.UserService;
 	import com.google.appengine.api.users.UserServiceFactory;
 
+	
+	/**
+	 * Used for log in an out of user
+	 * @author steffenfb
+	 *
+	 */
 	public class Login extends HttpServlet {
 		
 		

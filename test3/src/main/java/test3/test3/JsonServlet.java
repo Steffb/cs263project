@@ -33,41 +33,50 @@ import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.memcache.MemcacheService;
 import com.google.appengine.api.memcache.MemcacheServiceFactory;
-import com.google.appengine.api.search.query.ExpressionParser.negation_return;
+
 import com.google.appengine.api.taskqueue.Queue;
 import com.google.appengine.api.taskqueue.QueueFactory;
-import com.google.appengine.api.users.User;
-import com.google.appengine.api.users.UserService;
-import com.google.appengine.api.users.UserServiceFactory;
+
 import com.google.gson.Gson;
 
 /**
  * 
  * @author steffenfb
  *	Servlet for handling json requests and making it to gson
+ *Handles all the soccer requests
+ *
+ *
  */
 
 public class JsonServlet extends HttpServlet{
 
 	MemcacheService memcache = MemcacheServiceFactory.getMemcacheService();
+	
+	/**
+	 * 
+	 *The doGet here take the request for a particular league and 
+	 *checks params to decide what to do.
+	 * If it comes from a leauge page we know we have an updated version in our db and fetches comments that may be
+	 * connected, and returns with data from db or cache
+	 * 
+	 * if it does not, that means it comes form the index page, so we do an api call. We then send go to the page and 
+	 * send a request to the worker to see if we need to update the datastore
+	 * 
+	 */
 
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException{
 
-
-
 		DatastoreService datastore;
-		//String uri ="http://echo.jsontest.com/key/value/one/two";
 		String uri="";
 		String s= req.getParameter("sport");
-
 		String lid= req.getParameter("id");
-
 		req.setAttribute("leaguename", req.getParameter("leaguename"));
 
 		/**
-		 * This is if you want to see the current ranking of a season
+		 * This is if you want to see the current tables of a played matches of particular season
 		 */
 		if (s.equals("plranking")){
+			
 			//this is if you come from the ranking page through comment or show comment
 			if (req.getParameter("post")!=null && req.getParameter("post").equals("yes")){
 				System.out.println("this is from comment");
@@ -82,18 +91,12 @@ public class JsonServlet extends HttpServlet{
 				//nessesary to get it in right order
 				Collections.reverse(results);
 				PlJson[] plj = new PlJson[results.size()];
-
 				long l;
 				int count=0;
-
 				Query commentq=new Query("comment");
-
 				List <Entity> comments = datastore.prepare(commentq).asList(FetchOptions.Builder.withDefaults());
-
-
-
+				
 				for (Entity e:results) {
-
 					PlJson p =new PlJson();
 					p.homeTeam=(String) e.getProperty("hometeam");
 					l =(Long) e.getProperty("goalsHomeTeam");
@@ -111,7 +114,7 @@ public class JsonServlet extends HttpServlet{
 					List <Entity> comments2 = datastore.prepare(comment2).asList(FetchOptions.Builder.withDefaults());
 					for (Entity e2:comments2){
 
-						p.comments.add((String) e2.getProperty("text"));
+						p.comments.add(e2.getProperty("author")+": "+(String) e2.getProperty("text"));
 
 					}
 
@@ -123,7 +126,7 @@ public class JsonServlet extends HttpServlet{
 				}
 
 				//get the comments to matches 
-				//Key commentkey = KeyFactory.
+				
 				ServletContext sc = this.getServletContext();
 				RequestDispatcher rd = sc.getRequestDispatcher("/pl.jsp");
 				req.setAttribute("league", plj);
@@ -148,7 +151,7 @@ public class JsonServlet extends HttpServlet{
 				//forward query to page
 				req.setAttribute("lid", lid);
 				rd.forward(req, resp);
-				System.out.println("after resp");
+			
 
 
 				// counts how many matches that are played so we know who to add later
@@ -166,7 +169,8 @@ public class JsonServlet extends HttpServlet{
 				queue.add(withUrl("/worker").param("lid", lid).param("count", ""+jsonPlayed));
 
 			}	
-		}else if( s.equals("index")){
+		}// it is a request for the index table
+		else if( s.equals("index")){
 			SoccerIndex[] soccerindex;
 
 
@@ -202,7 +206,11 @@ public class JsonServlet extends HttpServlet{
 
 
 	/**
-	 * This is for adding votes to matches
+	 * This is for Comments to the matches
+	 * 
+	 * This can be either a comment posted or a show comment
+	 * 
+	 * If it is a posted comment we add it to the database.
 	 */
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 
@@ -228,13 +236,13 @@ public class JsonServlet extends HttpServlet{
 
 				System.out.print("hey it worked");
 				Entity com= new Entity("comment", mykey);
-				com.setProperty("author", "someone");
+				com.setProperty("author", req.getParameter("sender"));
 				com.setProperty("text", req.getParameter("comment"));
 				datastore.put(com);
 
 			}
 
-			//needs to be dynamic
+			
 
 			resp.sendRedirect("/soccerleagues?sport=plranking&id="+lid+"&post=yes&leaguename="+league);
 

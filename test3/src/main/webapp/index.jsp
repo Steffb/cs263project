@@ -10,14 +10,17 @@
 <body>
 
 <div class="container">
-<div class="starter-template"></div>
-<h1>Here are the tasks</h1>
-<A HREF="guestbook.jsp">The guestbook</A><br>
-<a HREF="/task">Task example</a><br>
-<a HREF="/test">All tasks from datastore</a><br>
-<a HREF="/blob">Blobstore</a><br>
-<a HREF="/mem">My memcahce</a><br>
-<a HREF="/login">log in as a user</a><br>
+<div class="starter-template">
+
+<br>
+<br>
+<br>
+<br>
+
+
+
+</div>
+
 
 <%
 //if user logged in

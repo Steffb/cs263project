@@ -7,6 +7,8 @@
 	pageEncoding="UTF-8"%>
 <%@include file="header.jsp"%>
 <%@page import="java.util.Random"%>
+<%@ page import="com.google.appengine.api.users.User"%>
+<%@ page import="com.google.appengine.api.users.UserService"%>
 
 <%@ page import="com.google.gson.Gson"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -23,27 +25,21 @@
 </style>
 </head>
 <body>
-	<%
+	<%	User user = userService.getCurrentUser();
+		
 		PlJson[] pp = (PlJson[]) request.getAttribute("league");
 	%>
 
 
-
+<div class="container">
 
 	<h1>The currently played matched in</h1>
 	<h1><%=request.getAttribute("leaguename")%></h1>
+	
+	</div>
 	<table class="table table-hover">
 
-		<tr>
-			<th>hometeam</th>
-			<th>HTgoal</th>
-			<th>awayteam</th>
-			<th>ATgoal</th>
-			<th>Was goal</th>
-			<th>goalcount</th>
-			<th>Comment</th>
-		</tr>
-
+		
 		<%
 			int matchday = pp[pp.length - 1].matchday;
 			int len = pp.length;
@@ -59,6 +55,17 @@
 			<th></th>
 			<th>Match day <%=plm.matchday%></th>
 		</tr>
+		
+		<tr>
+			<th>hometeam</th>
+			<th>HTgoal</th>
+			<th>awayteam</th>
+			<th>ATgoal</th>
+			<th>Was goal</th>
+			<th>goalcount</th>
+			<th>Comment</th>
+		</tr>
+		
 
 
 		<%
@@ -77,7 +84,10 @@
 				<td><div class="ttoggle" style="visibility: hidden;"><%=plm.goalsAwayTeam%></div></td>
 
 				<td><div class="ttoggle" style="visibility: hidden;">
-						<%=plm.wasGoal()%></div></td>
+				<%if(plm.wasGoal()){ %>
+						Yes!
+						<%}else{%> No!<%} %>
+						</div></td>
 
 				<td><div class="ttoggle" style="visibility: hidden;"><%=plm.goalCount()%></div></td>
 
@@ -93,6 +103,7 @@
 							<input type="hidden" name="leaguename" value=<%=request.getAttribute("leaguename")%>>
 							<input type="hidden" name="iscomment" value="yes">
 							
+							<input type="hidden" name="sender" value=<%=user.getNickname() %>>
 							<input type="hidden" name="parentkind" value="LeagueEntity" /> 
 							<input type="hidden" name="type" value="comment" /> 
 								 <input type="text" name="comment"> 

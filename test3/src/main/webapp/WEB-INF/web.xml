@@ -49,15 +49,7 @@
 		<url-pattern>/upload</url-pattern>
 	</servlet-mapping>
 
-	<servlet>
-		<servlet-name>memcache</servlet-name>
-		<jsp-file>/memcache.jsp</jsp-file>
-	</servlet>
-
-	<servlet-mapping>
-		<servlet-name>memcache</servlet-name>
-		<url-pattern>/mem</url-pattern>
-	</servlet-mapping>
+	
 
 
 	<servlet>
@@ -115,28 +107,6 @@
 		<welcome-file>index.jsp</welcome-file>
 	</welcome-file-list>
 
-
-	<servlet>
-		<servlet-name>task</servlet-name>
-		<jsp-file>/task.jsp</jsp-file>
-
-	</servlet>
-
-	<servlet-mapping>
-		<servlet-name>task</servlet-name>
-		<url-pattern>/task</url-pattern>
-	</servlet-mapping>
-
-	<servlet>
-		<servlet-name>readdata</servlet-name>
-		<servlet-class>ReadData</servlet-class>
-	</servlet>
-
-	<servlet-mapping>
-		<servlet-name>readdata</servlet-name>
-		<url-pattern>/test</url-pattern>
-	</servlet-mapping>
-
 	<servlet>
 		<servlet-name>done</servlet-name>
 		<jsp-file>/done.html</jsp-file>
@@ -151,25 +121,8 @@
 
 
 
-	<servlet>
-		<servlet-name>test</servlet-name>
-		<servlet-class>test3.test3.MyServlet</servlet-class>
-	</servlet>
 
-	<servlet-mapping>
-		<servlet-name>test</servlet-name>
-		<url-pattern>/test2/*</url-pattern>
-	</servlet-mapping>
-
-	<servlet>
-		<servlet-name>enqueue</servlet-name>
-		<servlet-class>Enqueue</servlet-class>
-	</servlet>
-
-	<servlet-mapping>
-		<servlet-name>enqueue</servlet-name>
-		<url-pattern>/enqueue</url-pattern>
-	</servlet-mapping>
+	
 	<servlet>
 		<servlet-name>worker</servlet-name>
 		<servlet-class>Worker</servlet-class>
