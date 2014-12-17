@@ -49,8 +49,7 @@ for(Entity r:results){
 <td>
 <form name="myform" action="/jsontest" method="POST">
 <input type="hidden" name="id" value=<%=r.getProperty("id") %> />
-<input type="hidden" name="type" value="voteup" />
-<input type="hidden" name="parentid" value=<%=r.getParent().getId() %> />
+
 <input type="hidden" name="parentkind" value=<%=r.getParent().getKind() %> />
 <input type="hidden" name="parent" value=<%=r.getParent() %> />
 <input type="hidden" name="parentname" value=<%=r.getParent().getName() %> />

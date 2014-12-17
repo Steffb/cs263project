@@ -19,6 +19,11 @@ import java.util.Date;
 public class Worker extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+    	
+    	System.out.println("worker is activated");
+    	
+    	
+    	
         String key = request.getParameter("key");
         String value =request.getParameter("value");
         System.out.println("i worker "+key);

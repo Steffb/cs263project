@@ -23,10 +23,9 @@
 <div class="jumbotron">
 <div class="container">
 <br>
-
 <%Entity result = null;
 
-
+MemcacheService memcache = MemcacheServiceFactory.getMemcacheService();
 User user = userService.getCurrentUser();
 
 
@@ -83,15 +82,20 @@ BlobKey b = (BlobKey) result.getProperty("blobkey");%>
 
 }
 if(result !=null ){
-	System.out.println("User is found");
-System.out.println(result.getKind()+result.toString());
+	List<Entity> le;
 
-
+if (!memcache.contains("savedmatches")){
 Query query = new Query("Savematch", result.getKey());
-System.out.println(query);
-List<Entity> le = datastore.prepare(query).asList(FetchOptions.Builder.withDefaults());
 
-System.out.println(le);
+le = datastore.prepare(query).asList(FetchOptions.Builder.withDefaults());
+
+memcache.put("savedmatches", le);}
+else{
+	le =(List <Entity>) memcache.get("savedmatches");
+	System.out.println("got matches from cache");
+	
+	
+}
 %>
 	<div class="row">
 	<h3>Your saved matches</h3>
@@ -140,7 +144,7 @@ for (Entity e: le){
 		
 		
 		<%
-	MemcacheService memcache = MemcacheServiceFactory.getMemcacheService();
+	
 		
 		if (memcache.contains("mail")) {
 			
@@ -150,12 +154,9 @@ for (Entity e: le){
 				
 		}else{
 			
-		System.out.println("nothing is cached");
-			
-		System.out.println("setting cache");
 		memcache.put("mail",result.getProperty("mail"));%>
 		
-		<h4>This is from the datastore:</h4>
+		
 		
 		<%if(result !=null ){ %>
 		<p><%=result.getProperty("mail")%></p>

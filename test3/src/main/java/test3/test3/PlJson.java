@@ -7,7 +7,8 @@ import java.util.List;
  * 
  * @author steffenfb
  *
- * The class to parse Premier lueage json object
+ * The class to parse Premier league json object to java
+ * Represents a match 
  */
 public class PlJson {
 	
@@ -18,6 +19,7 @@ public class PlJson {
     public String awayTeam;
     public int goalsHomeTeam;
     public int goalsAwayTeam;
+    public ArrayList<String> comments= new ArrayList<String>();
 	
 	
 	String league;

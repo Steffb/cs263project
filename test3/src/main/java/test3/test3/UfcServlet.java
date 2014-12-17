@@ -1,16 +1,19 @@
 package test3.test3;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
+import java.io.Console;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.logging.Logger;
+
+
 
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
@@ -22,6 +25,7 @@ import com.google.gson.Gson;
 
 import test3.test3.Datascraper;
 
+
 public class UfcServlet extends HttpServlet{
 
 	//Needs to send full event as attribute 
@@ -29,12 +33,16 @@ public class UfcServlet extends HttpServlet{
 
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException{ 
 		
+		
+		 
 
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 		//Add the event to db
 		String url = "http://en.wikipedia.org"+req.getParameter("eventurl");
 		UfcEvent u= new UfcEvent();
 		u.eventname=Datascraper.getwikiheader(Datascraper.urlToDoc(url));
+		
+		
 		//because the form on Ufc.jsp does not like whitespaces
 		String eventname =u.eventname.replaceAll("\\s+","");
 		u.fights=Datascraper.createFights(Datascraper.urlToDoc(url));
@@ -85,22 +93,16 @@ public class UfcServlet extends HttpServlet{
 		
 		//create object from datastore
 		
-
 		req.setAttribute("key", ufcKey);
 		req.setAttribute("event", eventname);
+
 		ServletContext sc = this.getServletContext();
-		RequestDispatcher rd = sc.getRequestDispatcher("/ufc.jsp");
+		RequestDispatcher rd = sc.getRequestDispatcher("/Ufc.jsp");
 		
 		//forward query to page
 		rd.forward(req, resp);
 		
-		
-		
-
-
-
-
-
+	
 	}
 
 

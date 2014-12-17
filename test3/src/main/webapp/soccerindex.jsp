@@ -30,7 +30,7 @@ SoccerIndex[] soccerindex =(SoccerIndex[]) request.getAttribute("index");
 <%for (int i = 0; i < soccerindex.length; i++) { %>
 
 
-<tr class='clickableRow' href='/jsontest?sport=plranking&id=<%=soccerindex[i].id %>'><td><%=soccerindex[i].id %></td><td><%=soccerindex[i].caption%></td><td><%=soccerindex[i].league %></td><td>
+<tr class='clickableRow' href='/jsontest?sport=plranking&id=<%=soccerindex[i].id %>&leaguename=<%=soccerindex[i].caption %>'><td><%=soccerindex[i].id %></td><td><%=soccerindex[i].caption%></td><td><%=soccerindex[i].league %></td><td>
 <%=soccerindex[i].year%></td></tr> </div>
 
 

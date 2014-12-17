@@ -14,10 +14,25 @@
 		<url-pattern>/blob</url-pattern>
 
 	</servlet-mapping>
+	<servlet>
+	    <servlet-name>
+	    soccerleagues
+	    </servlet-name>
+	    <servlet-class>test3.test3.JsonServlet</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>soccerleagues</servlet-name>
+		<url-pattern>/soccerleagues/*</url-pattern>
+
+	</servlet-mapping>
+	
+	
 	
 	<servlet>
 		<servlet-name>ufc</servlet-name>
 		<servlet-class>test3.test3.UfcServlet</servlet-class>
+		
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>ufc</servlet-name>
